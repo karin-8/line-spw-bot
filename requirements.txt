@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+httpx
+duckdb
+pandas
+langchain
+langchain-openai
+python-dotenv
