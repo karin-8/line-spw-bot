@@ -1,8 +1,17 @@
 import duckdb, pandas as pd
 from pathlib import Path
+import os
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 
+# Get the key explicitly
+OPENAI_KEY = os.getenv("OPENAI_API_KEY")
+if not OPENAI_KEY:
+    raise RuntimeError("OPENAI_API_KEY is not set — check Railway variables")
+
+# Create model clients with explicit api_key
+llm_sql = ChatOpenAI(model="gpt-4o-mini", temperature=0, api_key=OPENAI_KEY)
+llm_answer = ChatOpenAI(model="gpt-4o-mini", temperature=0, api_key=OPENAI_KEY)
 def connect_duckdb(data_dir: str = "app/data"):
     con = duckdb.connect(database=":memory:")
     for csv in Path(data_dir).glob("*.csv"):
